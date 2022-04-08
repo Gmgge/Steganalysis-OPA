@@ -1,29 +1,29 @@
 function stego_info = OPA_stego(in_path,message,key,out_path)
-%Î±²ÊÍ¼Ïñ OPAÒşĞ´Ëã·¨
-%in_path: ÊäÈëÍ¼ÏñÂ·¾¶
-%message: ¼ÓÃÜĞÅÏ¢ sting
-%key: ¼òÒ×ÃÜÔ¿ int
-%out_path: ÒşĞ´ºóÍ¼Ïñ±£´æÂ·¾¶ 
+%ä¼ªå½©å›¾åƒ OPAéšå†™ç®—æ³•
+%in_path: è¾“å…¥å›¾åƒè·¯å¾„
+%message: åŠ å¯†ä¿¡æ¯ sting
+%key: ç®€æ˜“å¯†é’¥ int
+%out_path: éšå†™åå›¾åƒä¿å­˜è·¯å¾„ 
 
-%¶ÁÈ¡Î±²ÊÍ¼ÏñĞÅÏ¢ Ë÷Òı±í¡¢ÑÕÉ«±í
+%è¯»å–ä¼ªå½©å›¾åƒä¿¡æ¯ ç´¢å¼•è¡¨ã€é¢œè‰²è¡¨
 [img_data, map] =imread(in_path);
 [color_number,~]=size(map);
 
-%ÒşĞ´ÏûÏ¢×ª¶ş½øÖÆ
-native=unicode2native(message);			%×ª³É±¾µØ±àÂë
-msgBin=de2bi(native,8,'left-msb');		%×Ö½Ú×ª³É8bit
-%¼ÆËãÏûÏ¢Í·£ºÏûÏ¢µÄÈ«²¿´óĞ¡£¨°üº¬ÒşĞ´ÏûÏ¢ÓëÒşĞ´Í·£©
-len = size(msgBin,1).*size(msgBin,2);  %¼ÆËãÒşĞ´ÏûÏ¢´óĞ¡
+%éšå†™æ¶ˆæ¯è½¬äºŒè¿›åˆ¶
+native=unicode2native(message);			%è½¬æˆæœ¬åœ°ç¼–ç 
+msgBin=de2bi(native,8,'left-msb');		%å­—èŠ‚è½¬æˆ8bit
+%è®¡ç®—æ¶ˆæ¯å¤´ï¼šæ¶ˆæ¯çš„å…¨éƒ¨å¤§å°ï¼ˆåŒ…å«éšå†™æ¶ˆæ¯ä¸éšå†™å¤´ï¼‰
+len = size(msgBin,1).*size(msgBin,2);  %è®¡ç®—éšå†™æ¶ˆæ¯å¤§å°
 sum_len = int32(len+32);
 head_data = de2bi(sum_len, 32, 'left-msb');
-%¹¹½¨ÍêÕûÏûÏ¢
+%æ„å»ºå®Œæ•´æ¶ˆæ¯
 mes_bin = reshape(double(msgBin).',len,1).';
 mes_bin = [head_data,mes_bin];
 
-%1 ¼ÆËãÑÕÉ«ÆæÅ¼ÊôĞÔ
-color_dis = zeros(color_number*(color_number-1)/2, 3);  %1£º¾àÀë 2£¬3:ÑÕÉ«Ë÷Òı
-temp_map = map;  %±¸·İÑÕÉ«±í
-%1.1 ¼ÆËãÑÕÉ«¾àÀë²¢ÅÅĞò
+%1 è®¡ç®—é¢œè‰²å¥‡å¶å±æ€§
+color_dis = zeros(color_number*(color_number-1)/2, 3);  %1ï¼šè·ç¦» 2ï¼Œ3:é¢œè‰²ç´¢å¼•
+temp_map = map;  %å¤‡ä»½é¢œè‰²è¡¨
+%1.1 è®¡ç®—é¢œè‰²è·ç¦»å¹¶æ’åº
 dis_index = 1;
 for m = 1:color_number 
     for n = m+1:color_number
@@ -32,46 +32,46 @@ for m = 1:color_number
     end
 end
 color_dis = sortrows(color_dis,1);
-%1.2 ¸ù¾İ¾àÀë¸ømapÖĞµÄÑÕÉ«·ÖÅäÆæÅ¼ÊôĞÔ
-map(:,4)=2; %³õÊ¼»¯ÆæÅ¼·ÖÅä 2±íÊ¾Î´·ÖÅäÆæÅ¼ÊôĞÔ
+%1.2 æ ¹æ®è·ç¦»ç»™mapä¸­çš„é¢œè‰²åˆ†é…å¥‡å¶å±æ€§
+map(:,4)=2; %åˆå§‹åŒ–å¥‡å¶åˆ†é… 2è¡¨ç¤ºæœªåˆ†é…å¥‡å¶å±æ€§
 num = color_number * (color_number-1) / 2;
 for n = 1:num
-    %Èç¹ûÁ½¸öÑÕÉ«¶¼Î´·ÖÅäÆæÅ¼ÊôĞÔ£¬ÔòÈ¡µÚÒ»¸öÎªÆæ£¬µÚ¶ş¸öÎªÅ¼
+    %å¦‚æœä¸¤ä¸ªé¢œè‰²éƒ½æœªåˆ†é…å¥‡å¶å±æ€§ï¼Œåˆ™å–ç¬¬ä¸€ä¸ªä¸ºå¥‡ï¼Œç¬¬äºŒä¸ªä¸ºå¶
     if map(color_dis(n,2),4)==2 && map(color_dis(n,3),4)==2
         map(color_dis(n,2),4)=1;
         map(color_dis(n,3),4)=0;
-    %Èç¹ûÁ½¸öÑÕÉ«¶¼·ÖÅä£¬Ôò¼ÌĞøÏÂÒ»Ñ­»·
+    %å¦‚æœä¸¤ä¸ªé¢œè‰²éƒ½åˆ†é…ï¼Œåˆ™ç»§ç»­ä¸‹ä¸€å¾ªç¯
     elseif map(color_dis(n,2),4)~=2 && map(color_dis(n,3),4)~=2
         continue
-    %Èç¹ûµÚÒ»¸öÒÑ·ÖÅäÊôĞÔ£¬µÚ¶ş¸öÎ´·ÖÅä£¬ÔòµÚ¶ş¸öÊôĞÔÈ¡·´
+    %å¦‚æœç¬¬ä¸€ä¸ªå·²åˆ†é…å±æ€§ï¼Œç¬¬äºŒä¸ªæœªåˆ†é…ï¼Œåˆ™ç¬¬äºŒä¸ªå±æ€§å–å
     elseif map(color_dis(n,2),4)~=2
         map(color_dis(n,3),4)= 1-map(color_dis(n,2),4);
-    %Èç¹ûµÚ¶ş¸öÒÑ·ÖÅäÊôĞÔ£¬µÚÒ»¸öÎ´·ÖÅä£¬ÔòµÚÒ»¸öÊôĞÔÈ¡·´
+    %å¦‚æœç¬¬äºŒä¸ªå·²åˆ†é…å±æ€§ï¼Œç¬¬ä¸€ä¸ªæœªåˆ†é…ï¼Œåˆ™ç¬¬ä¸€ä¸ªå±æ€§å–å
     elseif map(color_dis(n,3),4)~=2
         map(color_dis(n,2),4)= 1-map(color_dis(n,3),4);
     end
 end 
 
-%¶ÔË÷Òı±í½øĞĞÒşĞ´
+%å¯¹ç´¢å¼•è¡¨è¿›è¡Œéšå†™
 [~,wid1]=size(img_data);
 m = 1;
 n = key;
-img_data = img_data + 1;  %matlabË÷Òı´Ó1¿ªÊ¼£¬ÑÕÉ«Ë÷Òı´Ó0¿ªÊ¼£¬½øĞĞË÷Òı»»Ëã
+img_data = img_data + 1;  %matlabç´¢å¼•ä»1å¼€å§‹ï¼Œé¢œè‰²ç´¢å¼•ä»0å¼€å§‹ï¼Œè¿›è¡Œç´¢å¼•æ¢ç®—
 for i = 1:length(mes_bin)
     if n>wid1
         m= m+floor(n/wid1);
         n=mod(n,wid1);
     end
-    %¼ÙÈçÒª¼ÓÃÜµÄÏûÏ¢ÓëÔ­Ê¼ĞÅÏ¢ÆæÅ¼²»Í¬£¬ÔòÔÚ±íÖĞÕÒ³ö¶ÔÓ¦ÑÕÉ«
+    %å‡å¦‚è¦åŠ å¯†çš„æ¶ˆæ¯ä¸åŸå§‹ä¿¡æ¯å¥‡å¶ä¸åŒï¼Œåˆ™åœ¨è¡¨ä¸­æ‰¾å‡ºå¯¹åº”é¢œè‰²
     if map(img_data(m,n),4) ~=mes_bin(i)
         for j= 1:length(color_dis)
             if color_dis(j,2) ==img_data(m,n)||color_dis(j,3) ==img_data(m,n)
-                %Ñ¡È¡°üº¬¸ÃÑÕÉ«µÄ×î½üÑÕÉ«¶Ô  
+                %é€‰å–åŒ…å«è¯¥é¢œè‰²çš„æœ€è¿‘é¢œè‰²å¯¹  
                 if map(color_dis(j,2),4) == mes_bin(i)
-                    img_data(m,n) = color_dis(j,2) ;
+                    img_data(m,n) = color_dis(j,2);
                     break;
                 elseif map(color_dis(j,3),4) == mes_bin(i)
-                    img_data(m,n) = color_dis(j,3) ;
+                    img_data(m,n) = color_dis(j,3);
                       break;
                 end
             end
@@ -79,7 +79,7 @@ for i = 1:length(mes_bin)
     end
     n = n+1;
 end
-img_data = img_data - 1;  %matlabË÷Òı´Ó1¿ªÊ¼£¬½øĞĞË÷Òı»»Ëã
+img_data = img_data - 1;  %matlabç´¢å¼•ä»1å¼€å§‹ï¼Œè¿›è¡Œç´¢å¼•æ¢ç®—
 imwrite(img_data, temp_map,out_path);
 stego_info = sprintf('message stego to %s',out_path);
 end
